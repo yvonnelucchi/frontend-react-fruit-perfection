@@ -11,6 +11,15 @@ import './App.css';
 
 function App() {
     const [messageValue, setMessageValue] = React.useState('');
+    const [checkedTerms, toggleCheckedTerms] = React.useState(false);
+    // const [termsAndConditionsValue, toggleTermsAndConditioningValue] = React.useState(false);
+    // const checkingTerms = () => {console.log(toggleCheckedTerms(!checkedTerms))};
+    const [submitted, setSubmitted] = React.useState(false);
+
+    function sendForm() {
+        console.log(`Het bericht: "${messageValue}" is succesvol verzonden.`);
+        setSubmitted(true);
+    }
 
     return (
         <>
@@ -64,14 +73,30 @@ function App() {
                           type="text"
                           placeholder="Typ hier jouw bericht"
                           name="message"
+                          className={messageValue.length > 20 ? 'input-error' : ''}
                           value={messageValue}
-                          onChange={(e) => setMessageValue(e.target.value)}
+                          onChange={(event) => setMessageValue(event.target.value)}
 
+                          />
+                      {messageValue.length > 20 && <p className="error-message">Dit bericht is te lang!</p>}
 
-                      />
+                          <label htmlFor="terms-and-conditions">
+                              <input
+                                  type="checkbox"
+                                  name="terms-and-conditions"
+                                  id="terms-and-conditions"
+                                  checked={checkedTerms}
+                                  onChange={() => toggleCheckedTerms(!checkedTerms)}
+                                  />
+                                  ik ga akkoord met de algemene voorwaarden
+                          </label>
                   </form>
 
-                  <button type="Submit">
+                  <button
+                      type="Submit"
+                      disabled={!checkedTerms}
+                      onClick={sendForm}
+                  >
                       Verstuur
                   </button>
               </div>
@@ -83,3 +108,8 @@ function App() {
 
 
 export default App;
+
+
+
+
+
